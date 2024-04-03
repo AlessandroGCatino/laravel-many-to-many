@@ -27,11 +27,13 @@
     <h5>
         Linguaggi:
     </h5>
-    <p>
-        {{$project->languages}}
-    </p>
+    @forelse ($project->technologies as $techs)
+        <small class="d-block">{{$techs->name}}</small>
+    @empty
+        
+    @endforelse
 
-    <figure class="figure">
+    <figure class="figure mt-3">
         <img src="{{asset("/storage/" . $project->cover)}}" class="figure-img img-fluid rounded" alt="{{$project->title}}" />
         <figcaption
             class="figure-caption text-start"
