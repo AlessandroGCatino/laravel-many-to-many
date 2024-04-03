@@ -12,7 +12,7 @@
                     <tr>
                         <th scope="col">Titolo</th>
                         <th scope="col">Descrizione</th>
-                        <th scope="col">Linguaggi</th>
+                        <th scope="col">Tecnologie</th>
                         <th scope="col">Copertina</th>
                         <th scope="col">Categoria</th>
                         <th scope="col">Azioni</th>
@@ -23,7 +23,13 @@
                         <tr>
                             <th><a href="{{route("projects.show", $item)}}">{{$item->title}}</a></td>
                             <td>{{$item->description}}</td>
-                            <td>{{$item->languages}}</td>
+                            <td>
+                                @forelse ($item->technologies as $techs)
+                                    <small class="d-block">{{$techs->name}}</small>
+                                @empty
+                                    
+                                @endforelse
+                            </td>
                             <td>{{$item->cover}}</td>
                             <td>{{$item->type ? $item->type->name : ""}}</td>
                             <td class="text-center">
