@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Support\Facades\Storage;
 
@@ -26,8 +27,9 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::all();
+        $technologies = Technology::all();
 
-        return view("dashboard.create", compact("types"));
+        return view("dashboard.create", compact("types", "technologies"));
     }
 
     /**
@@ -44,8 +46,15 @@ class ProjectController extends Controller
             
         }
         
+        
+
         $newProject = Project::create($validatedData);
-        $newProject->save();
+        
+
+        if($request->has("technologies")){
+            $newProject->technologies()->attach($request->technologies);
+        }
+        
         return redirect()->route("projects.index");
 
     }
@@ -64,8 +73,9 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();
+        $technologies = Technology::all();
 
-        return view("dashboard.edit", compact("project", "types"));
+        return view("dashboard.edit", compact("project", "types", "technologies"));
     }
 
     /**
@@ -84,6 +94,10 @@ class ProjectController extends Controller
         }
         
         $project->update($validatedData);
+
+        if($request->has("technologies")){
+            $project->technologies()->sync($request->technologies);
+        }
         return redirect()->route("projects.index");
     }
 

@@ -82,6 +82,25 @@
                 
             </select>
         </div>
+
+        <div class="mb-3">
+            <label for="technologies" class="form-label">Tecnologie utilizzate</label>
+            <select
+                multiple
+                class="form-select form-select-lg"
+                name="technologies[]"
+                id="technologies"
+            >
+                <option disabled value="">Select one or more</option>
+                @foreach ($technologies as $item )
+                    <option
+                        value="{{$item->id}}"
+                        {{$project->technologies->contains($item->id) ? "selected" : ""}}
+                        >{{$item->name}}</option>
+                @endforeach
+                
+            </select>
+        </div>
         
     
         <button
